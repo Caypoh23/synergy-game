@@ -156,6 +156,236 @@ body.in-scene .header,body.in-scene .footer{display:none}.in-scene main{padding:
  .venn-map{margin:auto}
 }
 @media(max-width:350px){.venn-game{padding:17px 12px 10px}.sorting-heading h2{font-size:22px}.venn-card>p{font-size:21px}.venn-destination,.venn-destination.guided{gap:8px}.zone-copy strong{font-size:14px}.zone-copy small{font-size:11px}}
+
+/* One window for the game; the viewport, rather than a fixed minimum, owns height. */
+html{height:100%;scroll-behavior:auto}
+body{height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+.header{flex:0 0 56px;height:56px;width:100%;padding:0 24px}
+.header .brand{font-size:22px}.header .brand-caption{display:none}
+.footer{display:none}
+main{width:100%;flex:1;min-height:0;padding:0 20px;overflow:auto;overscroll-behavior:contain}
+body[data-view=game]>.header,body[data-view=round-result]>.header,body[data-view=results]>.header{display:none}
+main:has(>.game-layout){overflow:hidden}
+.game-layout{height:100%;display:flex;flex-direction:column;width:100%;padding-bottom:max(12px,env(safe-area-inset-bottom));min-height:0}
+.game-layout>.toolbar{flex:none;min-height:44px;margin:8px 0;gap:10px}
+.toolbar-tools{display:flex;align-items:center;gap:10px}
+.toolbar-theory{min-height:44px;width:44px;padding:0}
+.game-layout>.round-top,.round-frame>.mission-index{display:none}
+.round-frame{display:flex;flex:1;min-height:0;gap:0}
+.game-panel{width:100%;height:100%;min-height:0;padding:20px 24px;display:flex;flex-direction:column;overflow:auto;overscroll-behavior:contain}
+.round-frame>.game-panel{overflow:hidden}
+.game-heading{flex:none;margin-bottom:12px;padding-bottom:12px;gap:10px}
+.game-heading h2{font-size:25px;margin-top:4px}.game-heading p,.game-heading .round-index{display:none}
+.round-content{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:2px 5px 4px;margin:0 -5px}
+.round-footer{flex:none}
+.round-footer .action-row{margin-top:12px;padding-top:12px;gap:12px;flex-wrap:nowrap;min-height:58px}
+.round-footer .action-row>.button.primary{margin-left:auto}
+.round-footer .hint{font-size:11px;max-width:40%;width:auto;order:0}
+.game-panel .step-label{margin-bottom:8px}
+.game-panel .prompt{margin:8px 0 12px;font-size:21px;line-height:1.35}
+.game-panel .scenario{font-size:14px;line-height:1.6;margin-bottom:14px}
+.game-panel .choices{gap:8px;margin:14px 0}
+.game-panel .choice{padding:11px 14px;min-height:52px;font-size:14px;line-height:1.5}
+.game-panel .feedback{margin:12px 0;padding:14px 16px}
+.game-panel .card-focus{min-height:110px;margin:14px 0;padding:20px;font-size:25px}
+.game-panel .insert-pick-grid,.game-panel .sign-guide{margin:16px 0;gap:9px}
+.game-panel .insert-pick{min-height:106px;padding:14px 8px;gap:8px}
+.game-panel .branch-buttons .button{min-height:54px;padding:11px}
+.game-panel .field{margin-top:14px}
+.game-panel textarea{min-height:110px;max-height:200px}
+.game-panel .order-list{gap:8px;margin:12px 0}
+.game-panel .order-list li{padding:7px 12px;flex-wrap:nowrap}
+.game-panel .order-list p{min-width:0;font-size:13px;line-height:1.4}
+.game-panel .order-controls{margin:0;gap:4px}
+.game-panel .order-controls .icon-button{width:36px;min-width:36px;height:44px}
+/* Sorting keeps the card and all answers together. Secondary tools open separately. */
+.venn-game{padding:20px 24px 12px}
+.venn-game .round-content{display:flex;flex-direction:column}
+.sorting-heading{flex:none}
+.sorting-heading h2{font-size:27px;margin:4px 0}
+.sorting-heading>p:last-child{display:none}
+.venn-status{margin-top:4px;flex:none;min-height:44px}
+.venn-progress{margin:0 0 12px;flex:none}
+.venn-play{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+.venn-play.practice{margin-top:0}
+.venn-card{min-height:110px;padding:16px 22px;flex:none}
+.venn-card>p{font-size:26px;margin:10px auto 0}
+.venn-question,.practice-cue{margin:14px 0 10px;flex:none}
+.venn-destination{min-height:142px;padding:14px;gap:8px}
+.venn-destination.guided{padding:13px}
+.zone-copy small{margin-top:5px}
+.zone-send{min-height:36px;padding:7px 10px}
+.venn-secondary{display:flex;justify-content:space-between;align-items:center;gap:8px;flex:none;margin-top:12px;padding-top:8px}
+.venn-secondary>.quiet{padding:6px 0;min-height:44px;font-size:12px}
+.venn-feedback{padding:18px 0 8px;margin:0 auto;flex:none}
+.venn-feedback h3{font-size:21px}
+.venn-map{margin:auto}
+/* The cast, dialogue and controls all share the same real viewport. */
+body.in-scene main{height:100dvh;min-height:0;overflow:hidden;padding:0}
+.story-scene,.story-stage{height:100dvh;min-height:0;width:100%}
+.story-dialogue{top:50%;transform:translateY(-50%);min-height:400px;max-height:calc(100dvh - 140px);overflow:auto;padding:28px}
+.play-top{height:72px;padding-top:env(safe-area-inset-top)}
+.story-cast{bottom:14px;padding:8px;gap:18px}
+.story-person{min-height:66px;gap:5px}
+.story-avatar{width:42px;height:42px}
+/* A compact chapter picker replaces the long landing-page stack. */
+body[data-view=lobby] main{display:flex;flex-direction:column;overflow:hidden;padding-bottom:max(12px,env(safe-area-inset-bottom))}
+.library-intro{margin:16px 0;flex:none;align-items:center}
+.library-intro h1{font-size:30px;margin:4px 0}.library-intro p{font-size:13px}
+.library-layout{flex:1;min-height:0;gap:28px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.library-layout>div{display:flex;flex-direction:column;min-height:0}
+.story-cover{height:100%;min-height:0}
+.route-list{flex:1;display:grid;grid-template-rows:repeat(7,minmax(44px,1fr));min-height:0}
+.route-item{min-height:44px;padding:7px 8px;gap:12px}
+.route-description strong{font-size:15px;margin:2px 0}.route-type{font-size:10px}
+.library-tools{margin-top:10px;flex:none}.lobby-bottom{margin-top:8px;flex:none}
+.lobby-bottom p{font-size:11px}.lobby-bottom .quiet{font-size:11px}
+@media(max-width:850px){
+ .story-dialogue{top:auto;transform:none;bottom:max(12px,env(safe-area-inset-bottom));left:14px;right:14px;padding:20px;min-height:330px;max-height:calc(100dvh - 100px)}
+ .story-character{bottom:calc(var(--dialogue-h,330px) + 12px - var(--actor-h,360px)*.12)}
+ .story-dialogue>p{font-size:17px;line-height:1.55;margin:8px 0 16px}
+ .story-you{margin-bottom:8px}.story-dialogue-footer{gap:12px}
+ .story-choice{min-height:52px;padding:10px 12px}.story-note{margin-bottom:14px}
+ .story-speaker-button,.story-speaker:not(:has(button)){font-size:24px}
+ .story-cast{display:none}
+}
+@media(max-width:600px){
+ .header{padding:0 16px}.header .brand{font-size:20px}.header nav button{font-size:11px}
+ main{padding:0 10px}
+ .game-panel{padding:16px 14px}
+ .game-heading{margin-bottom:10px;padding-bottom:10px}.game-heading h2{font-size:22px}.game-heading .tag{font-size:10px}
+ .game-layout>.toolbar{margin:5px 0}.toolbar>.back{font-size:12px}.toolbar-tools{gap:5px}.toolbar .team-pill{gap:8px}
+ .toolbar:has(.select-field) .toolbar-theory{display:none}
+ .round-footer .action-row{gap:8px;flex-wrap:wrap;margin-top:8px;padding-top:8px}
+ .round-footer .action-row>.button{font-size:12px;min-height:44px;padding:10px 12px}
+ .round-footer .hint{font-size:11px;line-height:1.4;max-width:100%;width:100%;order:2}
+ .round-footer .hint:empty{display:none}
+ .game-panel .prompt{font-size:19px}.game-panel .scenario{font-size:13px;line-height:1.5}
+ .game-panel .choice{font-size:13px;gap:10px;padding:10px 11px}
+ .game-panel .card-focus{font-size:22px;min-height:104px;padding:18px;margin:12px 0}
+ .game-panel .insert-pick{min-height:90px;padding:10px 8px;gap:7px}
+ .game-panel .sign-guide>div{padding:12px 6px}
+ .game-panel .branch-buttons{gap:8px}
+ .game-panel .branch-buttons .button{font-size:12px;gap:8px;min-height:50px}
+ .game-panel .order-list li{gap:8px;padding:6px 8px}.game-panel .order-list p{font-size:12px}.order-num{font-size:11px}
+ .game-panel .order-controls{gap:0}.game-panel .order-controls .icon-button{width:32px;min-width:32px}
+ .venn-game{padding:14px 14px 8px}
+ .sorting-heading h2{font-size:22px}.sorting-heading .eyebrow{font-size:10px}
+ .venn-game .venn-status{margin-top:0}
+ .venn-card{min-height:100px;padding:14px}.venn-card>p{font-size:22px}
+ .venn-question,.practice-cue{margin:10px 0;font-size:12px;line-height:1.4}
+ .venn-destinations{gap:8px}
+ .venn-destination,.venn-destination.guided{min-height:70px;padding:10px 11px;gap:9px}
+ .venn-destination.guided{padding:9px 10px}
+ .zone-copy strong{font-size:14px}.zone-copy small{font-size:12px;line-height:1.4;margin-top:3px}
+ .zone-send{padding:0;min-height:24px}
+ .venn-secondary{margin-top:8px;padding-top:3px}.venn-secondary>.quiet{font-size:11px}
+ .venn-feedback h3{font-size:20px}.venn-feedback p{font-size:12px}
+ .venn-feedback>.button{margin-top:14px}
+ .venn-next-actions{margin-top:12px}
+ .library-intro{display:flex;align-items:center;gap:12px;margin:12px 0}
+ .library-intro .eyebrow,.library-intro>div>p:last-child{display:none}
+ .library-intro h1{font-size:26px;margin:0}
+ .library-intro .library-status{margin:0;gap:8px;padding:0}
+ .library-score{font-size:10px;gap:6px}.library-score strong{font-size:22px}.library-score span small{display:none}.library-status>.button{margin:0}
+ .library-layout{display:flex;flex-direction:column;gap:12px}
+ .story-cover{height:118px;min-height:118px;flex:none}
+ .cover-tag,.cover-copy p{display:none}.cover-copy{left:16px;top:14px;bottom:14px;max-width:70%;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between}
+ .cover-copy h2{font-size:22px;margin:0}.cover-copy h2 br{display:none}.cover-copy .button{font-size:12px;min-height:44px;padding:8px 12px}
+ .cover-scene>.character-painted{left:45%;top:1%;height:215%;width:75%;object-position:center top}
+ .library-layout>div{flex:1}
+ .route-list{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(4,minmax(56px,1fr));gap:8px;border:0}
+ .route-item{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px;gap:8px;min-height:56px}
+ .route-number{font-size:10px;width:15px}.route-description strong{font-size:13px;line-height:1.35}.route-type{font-size:9px}.route-meta{display:none}
+ .library-tools{margin-top:8px}.library-tools>.button{font-size:11px;padding:8px 10px}
+ .lobby-bottom{display:none}
+}
+@media(max-height:720px) and (max-width:850px) and (orientation:portrait){
+ .play-top{height:60px}.story-dialogue{padding:16px;min-height:300px}
+ .story-dialogue>p{font-size:16px;line-height:1.5;margin:6px 0 12px}
+ .story-choice{min-height:48px;font-size:12px;line-height:1.45;padding:9px 10px}
+ .story-speaker{margin-bottom:2px}.story-speaker-button,.story-speaker:not(:has(button)){font-size:23px}
+ .story-note{font-size:12px;line-height:1.5;margin-bottom:12px}.story-you{margin-bottom:6px}
+ .story-dialogue-footer{gap:9px}.story-continue{min-height:46px;padding:10px 14px}
+ .story-outcome{font-size:11px}.story-gain{font-size:10px}
+ .story-cover{height:90px;min-height:90px}.cover-copy{top:10px;bottom:10px}.cover-copy h2{display:none}
+}
+@media(orientation:landscape) and (max-height:600px){
+ .play-top{height:56px;padding:0 18px}.play-level{display:none}
+ .story-dialogue{top:64px;bottom:12px;left:auto;right:16px;width:53%;max-width:540px;max-height:none;min-height:0;transform:none;padding:16px}
+ .story-character{left:calc(24% - var(--actor-h,320px)/3);bottom:0}
+ .story-cast{display:none}.story-dialogue>p{font-size:15px;line-height:1.45;margin:5px 0 12px}
+ .story-speaker-button,.story-speaker:not(:has(button)){font-size:22px;min-height:36px}.story-speaker small{padding-top:8px}
+ .story-you{margin-bottom:6px}.story-choices{gap:7px}.story-choice{font-size:12px;min-height:44px;padding:8px}
+ .story-dialogue-footer{gap:8px}.story-continue{min-height:44px;padding:10px 12px}.story-note{font-size:12px;line-height:1.4;margin-bottom:10px}
+ .story-outcome{font-size:11px}.story-gain{font-size:10px}.story-dialogue>.button{min-height:44px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* Never let a short viewport push the card over the controls above it. */
+.venn-play{flex:1 0 auto;justify-content:flex-start;min-height:min-content}
+@media(max-width:600px){
+ .library-layout>.story-cover,.library-layout>div{width:100%}
+ .library-intro h1{font-size:24px}.library-score>span{display:none}
+ .library-intro .library-status{flex:none}
+}
+@media(max-width:600px) and (max-height:650px){
+ .sorting-heading h2{display:none}
+ .venn-card{min-height:80px;padding:12px}
+ .venn-card .card-instruction{display:none}
+ .venn-card>p{font-size:21px;margin:0 auto}
+ .venn-question,.practice-cue{font-size:12px;margin:8px 0}
+ .venn-destination,.venn-destination.guided{min-height:66px;padding:8px 10px}
+ .venn-destination.guided{padding:7px 9px}
+ .zone-copy strong{font-size:14px}.zone-copy small{font-size:11px}
+ .story-cover{display:none}
+}
+@media(orientation:landscape) and (max-height:600px){
+ .venn-game{padding:12px 18px 8px}
+ .sorting-heading h2{display:none}
+ .venn-progress{margin-bottom:8px}
+ .venn-play:not(:has(.venn-feedback)){display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);grid-template-rows:auto 1fr;gap:8px 14px;min-height:0}
+ .venn-play:not(:has(.venn-feedback))>.venn-card{grid-row:1/3;min-height:0;padding:12px}
+ .venn-question,.practice-cue{margin:0;font-size:12px;line-height:1.3}
+ .venn-card>p{font-size:22px;margin-top:8px}
+ .venn-destinations{gap:8px}
+ .venn-destination,.venn-destination.guided{display:flex;flex-direction:column;gap:6px;padding:10px;min-height:0}
+ .venn-destination .zone-icon{display:none}.zone-copy strong{font-size:13px;padding:0}.zone-copy small{font-size:11px;line-height:1.4}
+ .zone-send{padding:5px 7px;min-height:28px;font-size:11px;margin-top:auto}
+ .venn-secondary{margin-top:5px;padding-top:2px}
+ .venn-play:has(.venn-feedback){display:grid;grid-template-columns:1fr 1.3fr;gap:20px}
+ .venn-feedback{padding:0}.venn-feedback h3{font-size:18px}.venn-feedback p{font-size:12px}.venn-next-actions{margin-top:10px}
+}
+.round-footer .step-hint{flex:none;width:44px;height:44px;min-width:44px;padding:0}
+.game-panel .card-focus{min-height:100px;margin:10px 0}
+.venn-game .round-content{padding:0;margin:0}
+@media(max-width:600px) and (max-height:650px){
+ .game-panel:not(.venn-game)>.game-heading{display:none}
+ .game-panel .choices{margin:8px 0}
+ .game-panel .choice{line-height:1.4}
+ .game-panel .sign-guide{margin:10px 0}
+ .game-panel .prompt{font-size:18px;line-height:1.35;margin:6px 0 10px}
+ .game-panel .scenario{margin-bottom:10px}
+ .game-panel textarea{min-height:88px}
+ .venn-card{min-height:76px;padding:10px}
+ .venn-status{min-height:40px}
+ .venn-secondary{margin-top:4px;padding-top:0}
+}
+@media(orientation:landscape) and (max-height:600px){
+ body[data-view=lobby] .library-intro{margin:6px 0;gap:16px}
+ body[data-view=lobby] .library-intro h1{font-size:24px}
+ body[data-view=lobby] .library-intro .eyebrow,body[data-view=lobby] .library-intro>div>p:last-child{display:none}
+ body[data-view=lobby] .library-status{display:flex;align-items:center;gap:12px}.library-status .button{margin-top:0}
+ body[data-view=lobby] .library-score>span{display:none}
+ body[data-view=lobby] .library-layout{display:flex;gap:16px}
+ body[data-view=lobby] .story-cover{display:none}
+ body[data-view=lobby] .library-layout>div{width:100%;height:100%}
+ body[data-view=lobby] .route-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(2,minmax(44px,1fr));gap:8px;border:0}
+ body[data-view=lobby] .route-item{border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:var(--surface)}
+ body[data-view=lobby] .route-description strong{font-size:13px}.route-item .route-meta{gap:8px}
+ body[data-view=lobby] .route-meta{display:none}
+ body[data-view=lobby] .lobby-bottom{display:none}
+ body[data-view=lobby] .library-tools{margin-top:6px}
+}
 </style>
 <!-- Embedded asset licenses:
 ISC License
@@ -416,14 +646,14 @@ function missionOpen(id){state.started=true;navigate(team().results[id]?'round-r
 function progress(){return `<div class="round-progress" aria-label="${doneCount(team())} из 7 раундов завершено">${MISSIONS.map((m,i)=>`<span class="${team().results[i]?'past':i===state.mission?'current':''}" title="${esc(m.short)}"></span>`).join('')}</div>`}
 function motionButton(){return `<button class="motion-toggle" data-action="motion-toggle" aria-pressed="false" aria-label="Приостановить анимацию" title="Приостановить анимацию">${icon('pause')}</button>`}
 function teamControl(){return `<div class="team-pill">${state.mode==='teams'?`<label class="sr-only" for="team-select">Активная команда</label><select id="team-select" data-control="team">${state.teams.map((t,i)=>`<option value="${i}" ${i===state.activeTeam?'selected':''}>${esc(t.name)}</option>`).join('')}</select>`:`<span class="player-label">Личная миссия</span>`}<span class="score">${total(team())}<small> / 700</small></span>${motionButton()}</div>`}
-function toolbar(){return `<div class="toolbar"><button class="quiet back" data-action="home">${icon('left')} Карта миссий</button>${teamControl()}</div>`}
+function toolbar(){return `<div class="toolbar"><button class="quiet back" data-action="home">${icon('left')} Карта миссий</button><div class="toolbar-tools"><button class="quiet toolbar-theory" data-action="theory" aria-label="Конспект">${icon('book')}</button>${teamControl()}</div></div>`}
 function footerAction(label,action,disabled=false,hint=''){return `<div class="action-row"><span class="hint">${hint}</span><button class="button primary" data-action="${action}" ${disabled?'disabled':''}>${label} ${icon('right')}</button></div>`}
 function choiceList(options,value,action,multi=false,limit){return `<div class="choices">${options.map((text,i)=>`<button class="choice ${multi?value.includes(i)?'selected':'':value===i?'selected':''}" data-action="${action}" data-index="${i}" aria-pressed="${multi?value.includes(i):value===i}"><span class="choice-mark">${multi?(value.includes(i)?icon('check'):icon('plus')):'АБВГД'[i]}</span><span>${text}</span></button>`).join('')}</div>${multi?`<p class="help-line">Выбрано: ${value.length}${limit?' / '+limit:''}</p>`:''}`}
 function feedback(title,body,bad=false){return `<div class="feedback ${bad?'bad':''}" role="status"><strong>${title}</strong>${body}</div>`}
 function roundShell(body,extra=''){
  const m=MISSIONS[state.mission];
  const guides=['Собери общий план помощи Маше.','Найди изменение, которое услышат все.','Распредели признаки по трём зонам.','Прочитай мысль и выбери свою пометку.','Собери позицию, причины и пример.','Распредели элементы системы по ветвям.','Проверь, как устроено взаимодействие.'];
- return `<div class="game-layout">${toolbar()}<div class="round-top"><span class="round-label">Глава ${String(state.mission+1).padStart(2,'0')} из 07</span>${progress()}</div><div class="round-frame"><aside class="mission-index" aria-label="Главы игры"><p class="index-title">Оглавление</p>${MISSIONS.map((item,k)=>`<button class="index-item ${k===state.mission?'current':''}" data-action="mission" data-id="${k}" ${k===state.mission?'aria-current="step"':''}><span>${String(k+1).padStart(2,'0')}</span><span>${item.title}</span>${team().results[k]?icon('check'):''}</button>`).join('')}</aside><section class="game-panel ${extra}"><div class="game-heading"><div><span class="tag">${m.type}</span><h2>${m.title}</h2><p>${guides[state.mission]}</p></div><span class="round-index" aria-hidden="true">${String(state.mission+1).padStart(2,'0')}</span></div>${body}</section></div></div>`;
+ return `<div class="game-layout">${toolbar()}<div class="round-top"><span class="round-label">Глава ${String(state.mission+1).padStart(2,'0')} из 07</span>${progress()}</div><div class="round-frame"><aside class="mission-index" aria-label="Главы игры"><p class="index-title">Оглавление</p>${MISSIONS.map((item,k)=>`<button class="index-item ${k===state.mission?'current':''}" data-action="mission" data-id="${k}" ${k===state.mission?'aria-current="step"':''}><span>${String(k+1).padStart(2,'0')}</span><span>${item.title}</span>${team().results[k]?icon('check'):''}</button>`).join('')}</aside><section class="game-panel ${extra}"><div class="game-heading"><div><span class="tag">${m.type}</span><h2>${m.title}</h2><p>${guides[state.mission]}</p></div><span class="round-index" aria-hidden="true">${String(state.mission+1).padStart(2,'0')}</span></div><div class="round-content">${body}</div><div class="round-footer"></div></section></div></div>`;
 }
 const signals=[
  {name:'Семья',icon:'home',label:'Не услышана',role:'Наблюдает повседневное состояние и сообщает о потребностях ребёнка.',quote:'«После школы Маша сильно устаёт. Дома ей всё труднее выполнять задания. Мы об этом уже писали».',finding:'Наблюдение семьи не попало в общий план.'},
@@ -524,7 +754,7 @@ function vennPlay(d){
  <div class="venn-play ${practice?'practice':''}"><div class="venn-card ${pending||finished?'is-placed':''}"><span class="card-instruction">${icon('book')} ${practice?'Пример карточки':'Прочитай карточку'}</span><p>${text}</p></div>
  ${finished?`<section class="venn-feedback" aria-live="polite"><span class="answer-stamp">${icon('check')} Получилось!</span><h3>Здесь действует одна школа.</h3><p>Поэтому карточка подходит в «Один участник».</p><button class="button primary" data-action="venn-start">${d.index>0||d.pending?'Вернуться к карточкам':'Начать игру · 19 карточек'} ${icon('right')}</button></section>`:pending?`<section class="venn-feedback" aria-live="polite"><span class="answer-stamp">${icon('check')} Ответ сохранён</span><h3>Твой выбор: ${VENN_NAMES[d.answers[id]]}</h3><p>Разбор всех ответов будет в конце.</p><div class="venn-next-actions"><button class="button primary" data-action="venn-next">${d.index===18?'Все карточки готовы — к проверке':'Следующая карточка'} ${icon('right')}</button><button class="quiet" data-action="venn-change">Изменить ответ</button></div></section>`:`${practice?`<p class="practice-cue" id="practice-cue" role="status">${icon('down')} <span>${d.practicePhase==='retry'?'Здесь действует только школа. Нажми «Один участник».':'Это делает одна школа. Нажми «Один участник».'}</span></p>`:'<p class="venn-question">'+icon('down')+' Нажми один из трёх ответов</p>'}${vennChoices(practice)}`}
  </div>
- ${practice?'':`<div class="venn-secondary">${d.index>0&&!pending?'<button class="quiet" data-action="venn-undo">'+icon('left')+' Исправить предыдущий ответ</button>':''}<details class="venn-extras"><summary>Диаграмма и таймер ${d.timer.running?'· идёт отсчёт':''}</summary><div class="venn-extra-content">${vennMap(d)}<div><h3>Хочешь сыграть на время?</h3><p>Включи 3 минуты. Можно играть и без таймера.</p>${timerMarkup(d)}</div></div></details><details class="venn-teams"><summary>Играем тремя командами</summary><p>Команды 1 и 2 обсуждают по 7 признаков своего понятия. Команда 3 ищет 5 общих условий. Ведущий выбирает ответы. Затем поменяйтесь ролями и проверьте аргументы. В диаграмме «Один участник» — отдельный социальный институт, «Работают вместе» — взаимодействие институтов, «Нужно всем» — их общие условия.</p></details></div>`}`,'venn-game');
+ ${practice?'':`<div class="venn-secondary">${d.index>0&&!pending?'<button class="quiet" data-action="venn-undo" aria-label="Исправить предыдущий ответ">'+icon('left')+' Назад</button>':'<span></span>'}<button class="quiet" data-action="venn-tools">${icon('venn')} Диаграмма и таймер</button></div>`}`,'venn-game');
 }
 function vennMap(d){const counts=ZONES.map((_,i)=>Object.values(d.answers).filter(x=>x===i).length);return `<section class="venn-map" aria-label="Текущее распределение"><div class="venn-map-title"><strong>Твоя диаграмма</strong><span>${Object.keys(d.answers).length} / 19</span></div><svg viewBox="0 0 360 220" role="img" aria-label="${VENN_NAMES.map((n,i)=>n+': '+cardCount(counts[i])).join('. ')}"><defs><clipPath id="map-overlap"><circle cx="125" cy="110" r="89"/></clipPath></defs><circle cx="125" cy="110" r="89" fill="#edf2fb" stroke="#afc2e9"/><circle cx="235" cy="110" r="89" fill="#eaf4ef" stroke="#aacdbc"/><circle cx="235" cy="110" r="89" fill="#d4e2f9" clip-path="url(#map-overlap)"/><g class="map-label"><text x="92" y="94">Один</text><text x="92" y="111">институт</text><text x="180" y="103">Общее</text><text x="268" y="94">Работа</text><text x="268" y="111">вместе</text></g><g class="map-count">${counts.map((n,i)=>`<text x="${[92,180,268][i]}" y="140">${n}</text>`).join('')}</g></svg><p>Количество карточек в каждой зоне</p></section>`}
 function vennRound(){const d=draft();if(d.step===0)return vennPlay(d);
@@ -568,9 +798,9 @@ function readyPortrait(key){
 }
 function layoutNovel(){
  const stage=document.querySelector('.story-stage'),dialogue=stage?.querySelector('.story-dialogue');if(!stage||!dialogue)return;
- const h=dialogue.getBoundingClientRect().height,r=stage.getBoundingClientRect(),mobile=innerWidth<=850;
+ const h=dialogue.getBoundingClientRect().height,r=stage.getBoundingClientRect(),mobile=innerWidth<=850&&!(innerWidth>innerHeight&&innerHeight<=600);
  const size=mobile?Math.min(680,r.width*1.65,(r.height-h-78)/.88):Math.min(980,r.height-90,(r.width-420)*1.7);
- const props={'--dialogue-h':h+'px','--actor-h':Math.max(210,size)+'px'};
+ const props={'--dialogue-h':h+'px','--actor-h':Math.max(100,size)+'px'};
  for(const [key,value] of Object.entries(props))if(stage.style.getPropertyValue(key)!==value)stage.style.setProperty(key,value);
 }
 function scheduleNovelLayout(){if(!layoutFrame)layoutFrame=requestAnimationFrame(()=>{layoutFrame=0;layoutNovel()})}
@@ -735,7 +965,8 @@ function alignSceneLinks(){
   update();
   sceneObserver=new ResizeObserver(update);sceneObserver.observe(field);
 }
-function render(focus=false){if(cardFlight){const flight=cardFlight;cardFlight=null;flight.ghost.remove();flight.move.cancel()}const previous=document.activeElement;const identity=previous?.dataset?Object.entries(previous.dataset).filter(([k])=>['action','index','direction','sign','control','branch','zone','picker'].includes(k)):[];const content=state.view==='lobby'?renderLobby():state.view==='results'?renderResults():state.view==='round-result'?renderRoundResult():renderGame();closeSelectMenu();document.body.classList.remove('story-immersive');$('#main').innerHTML=content;enhanceSelects();alignSceneLinks();mountCharacters();syncMotion();document.body.classList.toggle('in-scene',state.view==='game'&&state.mission===0&&draft().step===0);if(focus){$('#main').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'})}else if(identity.length){const selector=identity.map(([k,v])=>'[data-'+k+'="'+CSS.escape(v)+'"]').join('');const restored=document.querySelector(selector);if(restored&&!restored.disabled)restored.focus({preventScroll:true});else document.querySelector('#main .button.primary:not(:disabled)')?.focus({preventScroll:true})}save()}
+function fitRoundActions(){const body=$('.round-content'),footer=$('.round-footer');if(!body||!footer)return;const actions=[...body.querySelectorAll('.action-row')].filter(el=>!el.closest('details'));const last=actions.at(-1);if(last){const hint=last.querySelector('.hint');if(hint&&hint.textContent.trim()){const button=document.createElement('button');button.className='quiet icon-button step-hint';button.dataset.action='step-hint';button.dataset.hint=hint.textContent;button.setAttribute('aria-label','Подсказка к заданию');button.innerHTML=icon('help');hint.replaceWith(button)}footer.append(last)}}
+function render(focus=false){const innerScroll=$('.round-content')?.scrollTop||0;if(cardFlight){const flight=cardFlight;cardFlight=null;flight.ghost.remove();flight.move.cancel()}const previous=document.activeElement;const identity=previous?.dataset?Object.entries(previous.dataset).filter(([k])=>['action','index','direction','sign','control','branch','zone','picker'].includes(k)):[];const content=state.view==='lobby'?renderLobby():state.view==='results'?renderResults():state.view==='round-result'?renderRoundResult():renderGame();closeSelectMenu();document.body.classList.remove('story-immersive');document.body.dataset.view=state.view;$('#main').innerHTML=content;fitRoundActions();if(!focus&&$('.round-content'))$('.round-content').scrollTop=innerScroll;enhanceSelects();alignSceneLinks();mountCharacters();syncMotion();document.body.classList.toggle('in-scene',state.view==='game'&&state.mission===0&&draft().step===0);if(focus){$('#main').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'})}else if(identity.length){const selector=identity.map(([k,v])=>'[data-'+k+'="'+CSS.escape(v)+'"]').join('');const restored=document.querySelector(selector);if(restored&&!restored.disabled)restored.focus({preventScroll:true});else document.querySelector('#main .button.primary:not(:disabled)')?.focus({preventScroll:true})}save()}
 function showModal(title,body){const modal=$('#modal');modal.innerHTML=`<div class="modal-head"><h2 id="modal-title">${title}</h2><button class="icon-button" data-action="close-modal" aria-label="Закрыть окно">${icon('close')}</button></div>${body}`;pauseTimer();save();modal.showModal();enhanceSelects(modal)}
 function showSetup(){showModal('Как будем играть?',`<p class="lead">Самостоятельно или тремя командами у одного экрана. Ведущий вводит общие ответы.</p><div class="mode-picker spaced"><button data-action="setup-mode" data-mode="solo" class="${state.mode==='solo'?'active':''}" aria-pressed="${state.mode==='solo'}">Самостоятельно</button><button data-action="setup-mode" data-mode="teams" class="${state.mode==='teams'?'active':''}" aria-pressed="${state.mode==='teams'}">3 команды</button></div><div class="team-fields">${state.teams.slice(0,state.mode==='solo'?1:3).map((t,i)=>`<label class="field"><span>${state.mode==='solo'?'Твоё имя или название':'Команда '+(i+1)}</span><input type="text" maxlength="26" data-control="team-name" data-index="${i}" value="${esc(t.name)}"></label>`).join('')}</div><p class="help-line">Командный режим работает на одном устройстве, с передачей хода. Одновременного подключения телефонов нет.</p><button class="button primary full spaced" data-action="save-setup">В игру ${icon('right')}</button><button class="quiet danger spaced" data-action="reset-dialog">Начать всё заново</button>`)}
 function showRules(){showModal('Сначала услышь. Потом действуй.',`<div class="reading"><p>Исследуй систему помощи ребёнку и пройди семь миссий. Начать можно с любой миссии на карте.</p><ol><li>Нажимай на участников и варианты, чтобы принимать решения.</li><li>В кейсах и блице читай объяснения после проверки.</li><li>В Венне и кластере распределяй карточки кнопками. Перетаскивать ничего не нужно.</li><li>В INSERT и ФСМУ записывай свою позицию и используй критерии самопроверки.</li></ol><h3>Баллы и время</h3><p>В каждой миссии до 100 баллов, всего 700. Повторная попытка заменяет результат. Баллы за творческие ответы отражают выполнение и самооценку, а не автоматическую проверку смысла.</p><p>Таймер Венна запускается вручную на три минуты. Он помогает держать темп и не блокирует ответ по истечении времени. При уходе из раунда таймер ставится на паузу.</p><h3>Три команды</h3><p>Используйте один экран. Переключайте активную команду и передавайте ход после миссии. В раунде Венна три команды работают вместе: две обсуждают по 7 признаков, третья — 5 общих условий. Затем меняются ролями. Результат Венна общий.</p><h3>Сохранение</h3><p>Ответы хранятся только в этом браузере. Итоги можно скачать текстовым файлом. Все случаи вымышлены; не вводите сведения о реальных детях.</p></div><button class="button primary full spaced" data-action="close-modal">Понятно, играем</button>`)}
@@ -748,7 +979,7 @@ if(state.mission===4&&d.step===0){button=$('[data-action="fsmu-next"]');if(butto
 if(state.mission===5&&d.step===2){button=$('[data-action="finish-cluster"]');if(button)button.disabled=!hasText(d.model)||!d.selfcheck}}
 document.addEventListener('input',e=>{const el=e.target;if(el.dataset.field){const d=draft();if(state.mission===4)d.fields[el.dataset.field]=el.value;else d[el.dataset.field]=el.value;save();updateFieldButtons()}if(el.dataset.control==='team-name'){const i=Number(el.dataset.index);state.teams[i].name=el.value.slice(0,26);save()}});
 document.addEventListener('change',e=>{const el=e.target,c=el.dataset.control;if(!c)return;const d=draft(),i=Number(el.dataset.index);if(c==='team'){pauseTimer();state.activeTeam=Number(el.value);if(state.view==='round-result'&&!team().results[state.mission])state.view='game';save();render(true);return}if(c==='concept'){if(el.value==='')delete d.concepts[i];else d.concepts[i]=Number(el.value)}if(c==='venn-edit')d.answers[i]=Number(el.value);if(c==='swap')d.swapped=el.checked;if(c==='insert-self'||c==='cluster-self')d.selfcheck=el.checked;if(c==='rubric')multiToggle(d.rubric,i,4);if(c==='risk')multiToggle(d.risks,i,6);save();const oldY=window.scrollY;render();window.scrollTo(0,oldY);if(c==='concept'){const focus=$(`[data-control="concept"][data-index="${i}"]`);focus?.parentElement.querySelector('.select-trigger')?.focus({preventScroll:true})}});
-document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b||b.disabled)return;const a=b.dataset.action,i=Number(b.dataset.index),d=draft();if(a==='noop')return;
+document.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b||b.disabled)return;const a=b.dataset.action,i=Number(b.dataset.index),d=draft();if(a==='noop')return;if(a==='step-hint'){showModal('Подсказка к заданию',`<p>${esc(b.dataset.hint)}</p><button class="button primary full spaced" data-action="close-modal">Вернуться к заданию</button>`);return}
 if(a==='resume-story'){state.started=true;navigate('game',0);if(draft().step!==0){draft().step=0;save();render(true)}return}
 if(a==='home'){exitImmersive();navigate('lobby');return}if(a==='mission'){exitImmersive();missionOpen(Number(b.dataset.id));return}if(a==='results'){navigate('results');return}if(a==='rules'){showRules();return}if(a==='theory'){showModal('Конспект по теме',`<div class="reading">${THEORY}</div><button class="button primary full spaced" data-action="close-modal">Вернуться в игру</button>`);return}if(a==='setup'){showSetup();return}if(a==='close-modal'){$('#modal').close();if(document.body.classList.contains('in-scene'))save();else render();return}
 if(a==='setup-mode'){const next=b.dataset.mode;if(next==='teams'&&state.teams.length===1){state.teams.push({name:'Команда 2',results:{},drafts:{}},{name:'Команда 3',results:{},drafts:{}});if(state.teams[0].name==='Твоя команда')state.teams[0].name='Команда 1'}state.mode=next;if(next==='solo')state.activeTeam=0;save();$('#modal').close();showSetup();return}
@@ -780,7 +1011,8 @@ if(a==='prediction')multiToggle(d.predictions,i,2);
 if(a==='check-predictions'&&d.predictions.length===2&&!d.checked){d.parts[1]=d.predictions.filter(x=>[0,1].includes(x)).length*20;d.checked=true}
 if(a==='metric')multiToggle(d.metrics,i,3);
 if(a==='check-metrics'&&d.metrics.length===3&&!d.checked){d.parts[2]=d.metrics.filter(x=>[0,2,3].includes(x)).length*10;d.checked=true}
-if(a==='timer'){if(d.timer.running){d.timer.remaining=Math.max(0,Math.ceil((d.timer.deadline-Date.now())/1000));d.timer.running=false;d.timer.deadline=null}else{if(d.timer.remaining===0)d.timer.remaining=180;d.timer.running=true;d.timer.deadline=Date.now()+d.timer.remaining*1000}}
+if(a==='timer'){if($('#modal').open)$('#modal').close();if(d.timer.running){d.timer.remaining=Math.max(0,Math.ceil((d.timer.deadline-Date.now())/1000));d.timer.running=false;d.timer.deadline=null}else{if(d.timer.remaining===0)d.timer.remaining=180;d.timer.running=true;d.timer.deadline=Date.now()+d.timer.remaining*1000}}
+if(a==='venn-tools'){showModal('Диаграмма и таймер',`${vennMap(d)}<div class="venn-extra-content"><div><h3>Сыграть на время</h3><p>Три минуты на распределение. Можно играть без таймера.</p></div>${timerMarkup(d)}</div><details><summary>Как играть тремя командами</summary><p>Две команды обсуждают по 7 признаков, третья — 5 общих условий. Затем поменяйтесь ролями и проверьте аргументы. «Один участник» — отдельный социальный институт, «Работают вместе» — взаимодействие институтов, «Нужно всем» — общие условия.</p></details><button class="button primary full spaced" data-action="close-modal">К карточке</button>`);return}
 if(a==='venn-example'){pauseTimer();d.practicePhase='choose';save();render(true);return}
 if(a==='venn-start'){d.tutorialDone=true;delete d.practicePhase;save();render(true);return}
 if(a==='venn-practice-zone'&&d.step===0){if(cardFlight||d.practicePhase==='done')return;if(Number(b.dataset.zone)!==0){d.practicePhase='retry';save();render();$('[data-action="venn-practice-zone"][data-zone="0"]')?.focus({preventScroll:true});return}d.practicePhase='done';save();animateCardChoice(b,()=>{if(state.view==='game'&&state.mission===2&&draft()===d){render();$('.venn-feedback [data-action="venn-start"]')?.focus({preventScroll:true})}});return}
