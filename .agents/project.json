@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "project": "synergy-game",
+  "repository": "github.com/caypoh23/synergy-game",
+  "ecosystem": "synergy-game",
+  "architecture": "Standalone Russian educational HTML game with embedded assets, vanilla JavaScript and CSS; GitHub Pages publishes docs from main. No backend or package installation.",
+  "tracker": "Use the existing product issue tracker; checkpoints only preserve task context.",
+  "sources": [
+    "AGENTS.md",
+    "README.md"
+  ],
+  "gates": [
+    "python3 tools/verify.py"
+  ],
+  "toolkit_files": {
+    ".agents/context.py": "599f54892583733b3572b2ad38cd8cfc75c321128acad37f7265caf05990fb85",
+    ".agents/workflow.md": "77ee7f91704893f3ea1a64a709938fb69c8d1efa2fdb28964b7a425fcf190df3",
+    ".agents/skills/project-context/SKILL.md": "3946ba41b2a71184e6e34bda7feebb431f9381cfe0a891f4c52eb8a708c7a858",
+    ".agents/tests/test_context.py": "ddf8aa5dd75df983535df2ce4483f8cd0051a3e865dc23edf9c3ca6f890bf4e1",
+    ".github/workflows/agent-context.yml": "d5b3dd2c6c547894f867c444d48fde7287d1ef463a906dcd4f23797a8de8e29d"
+  }
+}

@@ -1,0 +1,16 @@
+name: Agent context
+on:
+  pull_request:
+    paths: ['AGENTS.md', 'CLAUDE.md', '.agents/**', '.claude/**', '.gitignore', '.github/workflows/agent-context.yml']
+  push:
+    branches: [main]
+    paths: ['AGENTS.md', 'CLAUDE.md', '.agents/**', '.claude/**', '.gitignore', '.github/workflows/agent-context.yml']
+permissions:
+  contents: read
+jobs:
+  context:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - run: python3 .agents/context.py check
+      - run: python3 .agents/tests/test_context.py
